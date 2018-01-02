@@ -1,0 +1,42 @@
+subAppClass: info.magnolia.contacts.app.ContactDetailSubApp
+class: info.magnolia.ui.contentapp.detail.DetailSubAppDescriptor
+contentConnector:
+  workspace: recipes
+editor:
+  nodeType:
+    icon: icon-from-jcr
+    name: ama:recipe
+  actions:
+    - name: commit
+    - name: cancel
+  form:
+    tabs:
+      - name: mainTab
+        fields:
+          - name: name
+            class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+            required: true
+          - name: authors
+            class: info.magnolia.ui.form.field.definition.MultiValueFieldDefinition
+            required: true
+            field:
+              name: author
+              class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          - name: image
+            class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+            targetWorkspace: dam
+            appName: assets
+            targetTreeRootPath: /
+            identifierToPathConverter:
+              class: info.magnolia.dam.app.assets.field.translator.AssetCompositeIdKeyTranslator
+            contentPreviewDefinition:
+              contentPreviewClass: info.magnolia.dam.app.ui.field.DamFilePreviewComponent
+actions:
+  commit:
+    class: info.magnolia.ui.form.action.SaveFormActionDefinition
+    availability:
+      rules:
+        - name: IsNotVersionedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotVersionedRule
+  cancel:
+    class: info.magnolia.ui.form.action.CancelFormActionDefinition

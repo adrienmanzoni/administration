@@ -13,6 +13,7 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <!-- Magnolia CE bundle -->
         <dependency>
             <groupId>info.magnolia.bundle</groupId>
             <artifactId>magnolia-community-webapp</artifactId>
@@ -22,6 +23,12 @@
             <groupId>info.magnolia.bundle</groupId>
             <artifactId>magnolia-community-webapp</artifactId>
             <type>war</type>
+        </dependency>
+
+        <!-- Content types module -->
+        <dependency>
+            <groupId>info.magnolia.content</groupId>
+            <artifactId>magnolia-content-types</artifactId>
         </dependency>
     </dependencies>
 

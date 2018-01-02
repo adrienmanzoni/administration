@@ -1,0 +1,7 @@
+form:
+  tabs:
+    - name: tabText
+      fields:
+        - name: name
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+actions: !include:/comics-app/includes/dialogs/actions.yaml

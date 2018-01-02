@@ -1,0 +1,6 @@
+icon: icon-from-jcr
+appClass: info.magnolia.ui.contentapp.ContentApp
+class: info.magnolia.ui.contentapp.ConfiguredContentAppDescriptor
+subApps:
+  browser: !include:/comics-app/includes/apps/comics-series-app-browser.yaml
+  detail: !include:/comics-app/includes/apps/comics-series-app-detail.yaml

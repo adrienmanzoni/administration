@@ -11,6 +11,7 @@
     <properties>
         <magnoliaVersion>5.6</magnoliaVersion>
         <javaVersion>1.8</javaVersion>
+        <contentTypesVersion>0.5.2</contentTypesVersion>
     </properties>
 
     <!-- Fill the following in, so you can use the release plugin -->
@@ -22,12 +23,20 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Magnolia bundle -->
             <dependency>
                 <groupId>info.magnolia.bundle</groupId>
                 <artifactId>magnolia-bundle-parent</artifactId>
                 <version>${magnoliaVersion}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- Content types module -->
+            <dependency>
+                <groupId>info.magnolia.content</groupId>
+                <artifactId>magnolia-content-types</artifactId>
+                <version>${contentTypesVersion}</version>
             </dependency>
 
             <!-- TEST -->
