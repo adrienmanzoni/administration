@@ -2,33 +2,29 @@ subAppClass: info.magnolia.ui.contentapp.browser.BrowserSubApp
 class: info.magnolia.ui.contentapp.browser.BrowserSubAppDescriptor
 contentConnector:
   includeProperties: false
-  workspace: recipes
+  workspace: ingredients
   rootPath: /
   defaultOrder: jcrName
   nodeTypes:
     - icon: icon-from-jcr
-      name: ama:recipe
-    - icon: icon-folder-l
-      name: mgnl:folder
+      name: ama:ingredient
 actions:
-  addRecipe:
+  addIngredient:
     subAppId: detail
     icon: icon-add-item
-    nodeType: ama:recipe
-    appName: recipes-app
+    nodeType: ama:ingredient
+    appName: ingredients-app
     class: info.magnolia.ui.contentapp.detail.action.CreateItemActionDefinition
     availability:
       writePermissionRequired: true
-      root: false
-      nodeTypes:
-        folder: mgnl:folder
+      root: true
       rules:
         - name: IsNotDeletedRule
           implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
-  editRecipe:
+  editIngredient:
     subAppId: detail
     icon: icon-edit
-    appName: recipes-app
+    appName: ingredients-app
     class: info.magnolia.ui.contentapp.detail.action.EditItemActionDefinition
     availability:
       writePermissionRequired: true
@@ -36,10 +32,10 @@ actions:
         - name: IsNotDeletedRule
           implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
       nodeTypes:
-        ama-recipe: ama:recipe
-  renameRecipe:
+        ama-ingredient: ama:ingredient
+  renameIngredient:
     icon: icon-edit
-    dialogName: comics-app:renameRecipe
+    dialogName: comics-app:renameIngredient
     class: info.magnolia.ui.framework.action.OpenEditDialogActionDefinition
     availability:
       writePermissionRequired: true
@@ -47,34 +43,12 @@ actions:
         - name: IsNotDeletedRule
           implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
       nodeTypes:
-        ama-recipe: ama:recipe
+        ama-ingredient: ama:ingredient
   delete:
     command: markAsDeleted
     class: info.magnolia.ui.framework.action.MarkNodeAsDeletedActionDefinition
     availability:
       writePermissionRequired: true
-  addFolder:
-    icon: icon-add-folder
-    class: info.magnolia.ui.framework.action.AddFolderActionDefinition
-    availability:
-      writePermissionRequired: true
-      root: true
-      rules:
-        - name: IsNotDeletedRule
-          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
-      nodeTypes:
-        mgnl-folder: mgnl:folder
-  editFolder:
-    dialogName: ui-framework:folder
-    icon: icon-edit
-    class: info.magnolia.ui.framework.action.OpenEditDialogActionDefinition
-    availability:
-      writePermissionRequired: true
-      rules:
-        - name: IsNotDeletedRule
-          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
-      nodeTypes:
-        mgnl-folder: mgnl:folder
   duplicate:
     icon: icon-duplicate
     class: info.magnolia.ui.framework.action.DuplicateNodeActionDefinition
@@ -120,11 +94,10 @@ actions:
     availability:
       writePermissionRequired: true
       root: true
+      nodes: false
       rules:
         - name: IsNotDeletedRule
           implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
-      nodeTypes:
-        mgnl-folder: mgnl:folder
   restorePreviousVersion:
     icon: icon-undo
     class: info.magnolia.ui.contentapp.detail.action.RestorePreviousVersionActionDefinition
@@ -143,7 +116,7 @@ actions:
       rules:
         - name: IsDeletedRule
           implementationClass: info.magnolia.ui.framework.availability.IsDeletedRule
-  confirmDeleteRecipe:
+  confirmDeleteIngredient:
     successActionName: delete
     icon: icon-delete
     class: info.magnolia.ui.framework.action.DeleteConfirmationActionDefinition
@@ -154,19 +127,7 @@ actions:
         - name: IsNotDeletedRule
           implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
       nodeTypes:
-        ama-recipe: ama:recipe
-  confirmDeleteFolder:
-    icon: icon-delete
-    successActionName: delete
-    class: info.magnolia.ui.framework.action.DeleteConfirmationActionDefinition
-    availability:
-      multiple: true
-      writePermissionRequired: true
-      rules:
-        - name: IsNotDeletedRule
-          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
-      nodeTypes:
-        mgnl-folder: mgnl:folder
+        ama-ingredient: ama:ingredient
   showVersions:
     icon: icon-show-versions
     class: info.magnolia.ui.contentapp.browser.action.ShowVersionsActionDefinition
@@ -183,21 +144,18 @@ actions:
         - name: HasVersionsRule
           implementationClass: info.magnolia.ui.framework.availability.HasVersionsRule
 actionbar:
-  defaultAction: editRecipe
+  defaultAction: editIngredient
   sections:
     - name: root
       groups: &actionBarGroups
         - name: addActions
           items:
-            - name: addRecipe
-            - name: addFolder
-            - name: confirmDeleteRecipe
-            - name: confirmDeleteFolder
+            - name: addIngredient
+            - name: confirmDeleteIngredient
         - name: editActions
           items:
-            - name: editRecipe
-            - name: renameRecipe
-            - name: editFolder
+            - name: editIngredient
+            - name: renameIngredient
         - name: activationActions
           items:
             - name: activate
@@ -217,35 +175,21 @@ actionbar:
       availability:
         nodes: false
         root: true
-    - name: folder
+    - name: ingredient
       groups: *actionBarGroups
       availability:
         nodes: true
         root: false
         nodeTypes:
-          mgnl-folder: mgnl:folder
-    - name: serie
-      groups: *actionBarGroups
-      availability:
-        nodes: true
-        root: false
-        nodeTypes:
-          ama-recipe: ama:recipe
+          ama-ingredient: ama:ingredient
 workbench:
   editable: false
   contentViews:
-    - name: tree
-      class: info.magnolia.ui.workbench.tree.TreePresenterDefinition
+    - name: list
+      class: info.magnolia.ui.workbench.list.ListPresenterDefinition
       columns: &columns
         - name: name
-          expandRatio: 2.0
-          propertyName: jcrName
-          sortable: true
-          class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
-        - name: authors
-          label: recipes-app.mainTab.authors.label
-          expandRatio: 2.0
-          propertyName: authors
+          propertyName: name
           sortable: true
           class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
         - name: status
@@ -253,9 +197,6 @@ workbench:
           formatterClass: info.magnolia.ui.workbench.column.StatusColumnFormatter
           width: 46
           class: info.magnolia.ui.workbench.column.definition.StatusColumnDefinition
-    - name: list
-      class: info.magnolia.ui.workbench.list.ListPresenterDefinition
-      columns: *columns
     - name: search
       class: info.magnolia.ui.workbench.search.SearchPresenterDefinition
       columns: *columns

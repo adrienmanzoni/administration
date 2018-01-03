@@ -1,4 +1,4 @@
-icon: icon-from-jcr
+icon: icon-assets-app
 appClass: info.magnolia.ui.contentapp.ContentApp
 class: info.magnolia.ui.contentapp.ConfiguredContentAppDescriptor
 subApps:

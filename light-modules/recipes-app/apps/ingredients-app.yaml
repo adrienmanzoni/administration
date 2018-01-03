@@ -1,0 +1,6 @@
+icon: icon-notification-badge
+appClass: info.magnolia.ui.contentapp.ContentApp
+class: info.magnolia.ui.contentapp.ConfiguredContentAppDescriptor
+subApps:
+  browser: !include:/recipes-app/includes/apps/ingredients-app-browser.yaml
+  detail: !include:/recipes-app/includes/apps/ingredients-app-detail.yaml

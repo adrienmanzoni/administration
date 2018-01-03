@@ -1,0 +1,261 @@
+subAppClass: info.magnolia.ui.contentapp.browser.BrowserSubApp
+class: info.magnolia.ui.contentapp.browser.BrowserSubAppDescriptor
+contentConnector:
+  includeProperties: false
+  workspace: recipes
+  rootPath: /
+  defaultOrder: jcrName
+  nodeTypes:
+    - icon: icon-from-jcr
+      name: ama:recipe
+    - icon: icon-folder-l
+      name: mgnl:folder
+actions:
+  addRecipe:
+    subAppId: detail
+    icon: icon-add-item
+    nodeType: ama:recipe
+    appName: recipes-app
+    class: info.magnolia.ui.contentapp.detail.action.CreateItemActionDefinition
+    availability:
+      writePermissionRequired: true
+      root: false
+      nodeTypes:
+        folder: mgnl:folder
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+  editRecipe:
+    subAppId: detail
+    icon: icon-edit
+    appName: recipes-app
+    class: info.magnolia.ui.contentapp.detail.action.EditItemActionDefinition
+    availability:
+      writePermissionRequired: true
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      nodeTypes:
+        ama-recipe: ama:recipe
+  renameRecipe:
+    icon: icon-edit
+    dialogName: comics-app:renameRecipe
+    class: info.magnolia.ui.framework.action.OpenEditDialogActionDefinition
+    availability:
+      writePermissionRequired: true
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      nodeTypes:
+        ama-recipe: ama:recipe
+  delete:
+    command: markAsDeleted
+    class: info.magnolia.ui.framework.action.MarkNodeAsDeletedActionDefinition
+    availability:
+      writePermissionRequired: true
+  addFolder:
+    icon: icon-add-folder
+    class: info.magnolia.ui.framework.action.AddFolderActionDefinition
+    availability:
+      writePermissionRequired: true
+      root: true
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      nodeTypes:
+        mgnl-folder: mgnl:folder
+  editFolder:
+    dialogName: ui-framework:folder
+    icon: icon-edit
+    class: info.magnolia.ui.framework.action.OpenEditDialogActionDefinition
+    availability:
+      writePermissionRequired: true
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      nodeTypes:
+        mgnl-folder: mgnl:folder
+  duplicate:
+    icon: icon-duplicate
+    class: info.magnolia.ui.framework.action.DuplicateNodeActionDefinition
+    availability:
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+  activate:
+    command: activate
+    icon: icon-publish
+    catalog: versioned
+    class: info.magnolia.ui.framework.action.ActivationActionDefinition
+    availability:
+      writePermissionRequired: true
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+  deactivate:
+    command: deactivate
+    icon: icon-unpublish
+    catalog: versioned
+    class: info.magnolia.ui.framework.action.DeactivationActionDefinition
+    availability:
+      writePermissionRequired: true
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+        - name: IsPublishedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsPublishedRule
+  export:
+    command: export
+    icon: icon-export
+    class: info.magnolia.ui.framework.action.ExportActionDefinition
+    availability:
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+  import:
+    icon: icon-import
+    dialogName: ui-admincentral:import
+    name: import
+    class: info.magnolia.ui.framework.action.OpenCreateDialogActionDefinition
+    availability:
+      writePermissionRequired: true
+      root: true
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      nodeTypes:
+        mgnl-folder: mgnl:folder
+  restorePreviousVersion:
+    icon: icon-undo
+    class: info.magnolia.ui.contentapp.detail.action.RestorePreviousVersionActionDefinition
+    availability:
+      writePermissionRequired: true
+      rules:
+        - name: IsDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsDeletedRule
+  activateDeleted:
+    command: activate
+    icon: icon-publish
+    catalog: versioned
+    class: info.magnolia.ui.framework.action.ActivationActionDefinition
+    availability:
+      writePermissionRequired: true
+      rules:
+        - name: IsDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsDeletedRule
+  confirmDeleteRecipe:
+    successActionName: delete
+    icon: icon-delete
+    class: info.magnolia.ui.framework.action.DeleteConfirmationActionDefinition
+    availability:
+      multiple: true
+      writePermissionRequired: true
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      nodeTypes:
+        ama-recipe: ama:recipe
+  confirmDeleteFolder:
+    icon: icon-delete
+    successActionName: delete
+    class: info.magnolia.ui.framework.action.DeleteConfirmationActionDefinition
+    availability:
+      multiple: true
+      writePermissionRequired: true
+      rules:
+        - name: IsNotDeletedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      nodeTypes:
+        mgnl-folder: mgnl:folder
+  showVersions:
+    icon: icon-show-versions
+    class: info.magnolia.ui.contentapp.browser.action.ShowVersionsActionDefinition
+    availability:
+      rules:
+        - name: HasVersionsRule
+          implementationClass: info.magnolia.ui.framework.availability.HasVersionsRule
+  restoreVersion:
+    icon: icon-retrieve-versions
+    class: info.magnolia.ui.contentapp.browser.action.RestoreVersionActionDefinition
+    availability:
+      writePermissionRequired: true
+      rules:
+        - name: HasVersionsRule
+          implementationClass: info.magnolia.ui.framework.availability.HasVersionsRule
+actionbar:
+  defaultAction: editRecipe
+  sections:
+    - name: root
+      groups: &actionBarGroups
+        - name: addActions
+          items:
+            - name: addRecipe
+            - name: addFolder
+            - name: confirmDeleteRecipe
+            - name: confirmDeleteFolder
+        - name: editActions
+          items:
+            - name: editRecipe
+            - name: renameRecipe
+            - name: editFolder
+        - name: activationActions
+          items:
+            - name: activate
+            - name: activateDeleted
+            - name: deactivate
+        - name: importExportActions
+          items:
+            - name: import
+            - name: export
+        - name: versionsActions
+          items:
+            - name: showVersions
+            - name: restoreVersion
+        - name: deletedActions
+          items:
+            - name: restorePreviousVersion
+      availability:
+        nodes: false
+        root: true
+    - name: folder
+      groups: *actionBarGroups
+      availability:
+        nodes: true
+        root: false
+        nodeTypes:
+          mgnl-folder: mgnl:folder
+    - name: recipe
+      groups: *actionBarGroups
+      availability:
+        nodes: true
+        root: false
+        nodeTypes:
+          ama-recipe: ama:recipe
+workbench:
+  editable: false
+  contentViews:
+    - name: tree
+      class: info.magnolia.ui.workbench.tree.TreePresenterDefinition
+      columns: &columns
+        - name: name
+          expandRatio: 2.0
+          propertyName: jcrName
+          sortable: true
+          class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+        - name: authors
+          label: recipes-app.mainTab.authors.label
+          expandRatio: 2.0
+          propertyName: authors
+          sortable: true
+          class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+        - name: status
+          displayInChooseDialog: false
+          formatterClass: info.magnolia.ui.workbench.column.StatusColumnFormatter
+          width: 46
+          class: info.magnolia.ui.workbench.column.definition.StatusColumnDefinition
+    - name: list
+      class: info.magnolia.ui.workbench.list.ListPresenterDefinition
+      columns: *columns
+    - name: search
+      class: info.magnolia.ui.workbench.search.SearchPresenterDefinition
+      columns: *columns

@@ -1,0 +1,61 @@
+subAppClass: info.magnolia.contacts.app.ContactDetailSubApp
+class: info.magnolia.ui.contentapp.detail.DetailSubAppDescriptor
+contentConnector:
+  workspace: recipes
+editor:
+  wide: true
+  nodeType:
+    icon: icon-from-jcr
+    name: ama:recipe
+  actions:
+    - name: commit
+    - name: cancel
+  form:
+    tabs:
+      - name: mainTab
+        fields:
+          - name: name
+            class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+            required: true
+            i18n: true
+          - name: preparationTime (min)
+            class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+            defaultValue: 0
+            required: true
+          - name: cookingTime (min)
+            class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+            defaultValue: 0
+            required: true
+          - name: level
+            class: info.magnolia.ui.form.field.definition.SelectFieldDefinition
+            sortOptions: false
+            options:
+              - name: easy
+                value: 0
+                selected: true
+              - name: medium
+                value: 1
+              - name: hard
+                value: 2
+          - name: image
+            class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+            targetWorkspace: dam
+            appName: assets
+            targetTreeRootPath: /Recipes
+            identifierToPathConverter:
+              class: info.magnolia.dam.app.assets.field.translator.AssetCompositeIdKeyTranslator
+            contentPreviewDefinition:
+              contentPreviewClass: info.magnolia.dam.app.ui.field.DamFilePreviewComponent
+          - name: notes
+            class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+            rows: 8
+            i18n: true
+actions:
+  commit:
+    class: info.magnolia.ui.form.action.SaveFormActionDefinition
+    availability:
+      rules:
+        - name: IsNotVersionedRule
+          implementationClass: info.magnolia.ui.framework.availability.IsNotVersionedRule
+  cancel:
+    class: info.magnolia.ui.form.action.CancelFormActionDefinition
