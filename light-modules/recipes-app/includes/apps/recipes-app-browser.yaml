@@ -6,7 +6,7 @@ contentConnector:
   rootPath: /
   defaultOrder: jcrName
   nodeTypes:
-    - icon: icon-from-jcr
+    - icon: icon-assets-app
       name: ama:recipe
     - icon: icon-folder-l
       name: mgnl:folder
@@ -238,14 +238,26 @@ workbench:
       class: info.magnolia.ui.workbench.tree.TreePresenterDefinition
       columns: &columns
         - name: name
-          expandRatio: 2.0
+          expandRatio: 3.0
           propertyName: jcrName
           sortable: true
           class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
-        - name: authors
-          label: recipes-app.mainTab.authors.label
-          expandRatio: 2.0
-          propertyName: authors
+        - name: preparationTime
+          label: recipes-app.mainTab.preparationTime.label
+          expandRatio: 1.0
+          propertyName: preparationTime
+          sortable: true
+          class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+        - name: cookingTime
+          label: recipes-app.mainTab.cookingTime.label
+          expandRatio: 1.0
+          propertyName: cookingTime
+          sortable: true
+          class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+        - name: level
+          label: recipes-app.mainTab.level.label
+          expandRatio: 1.0
+          propertyName: level
           sortable: true
           class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
         - name: status

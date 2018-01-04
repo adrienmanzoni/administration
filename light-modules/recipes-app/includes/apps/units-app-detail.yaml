@@ -1,12 +1,12 @@
 subAppClass: info.magnolia.contacts.app.ContactDetailSubApp
 class: info.magnolia.ui.contentapp.detail.DetailSubAppDescriptor
 contentConnector:
-  workspace: ingredients
+  workspace: units
 editor:
   wide: true
   nodeType:
-    icon: icon-notification-badge
-    name: ama:ingredient
+    icon: icon-configuration-app
+    name: ama:unit
   actions:
     - name: commit
     - name: cancel
@@ -16,21 +16,12 @@ editor:
         fields:
           - name: name
             class: info.magnolia.ui.form.field.definition.TextFieldDefinition
-            i18n: true
             required: true
-          - name: image
-            class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
-            targetWorkspace: dam
-            appName: assets
-            targetTreeRootPath: /Ingredients
-            identifierToPathConverter:
-              class: info.magnolia.dam.app.assets.field.translator.AssetCompositeIdKeyTranslator
-            contentPreviewDefinition:
-              contentPreviewClass: info.magnolia.dam.app.ui.field.DamFilePreviewComponent
-          - name: recipeLink
-            class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
-            targetWorkspace: recipes
-            appName: recipes-app
+            i18n: true
+          - name: description
+            class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+            required: true
+            i18n: true
 actions:
   commit:
     class: info.magnolia.ui.form.action.SaveFormActionDefinition

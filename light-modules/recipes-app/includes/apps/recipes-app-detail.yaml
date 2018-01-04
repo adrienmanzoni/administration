@@ -5,7 +5,7 @@ contentConnector:
 editor:
   wide: true
   nodeType:
-    icon: icon-from-jcr
+    icon: icon-assets-app
     name: ama:recipe
   actions:
     - name: commit
@@ -18,14 +18,24 @@ editor:
             class: info.magnolia.ui.form.field.definition.TextFieldDefinition
             required: true
             i18n: true
-          - name: preparationTime (min)
+          - name: preparationTime
             class: info.magnolia.ui.form.field.definition.TextFieldDefinition
             defaultValue: 0
             required: true
-          - name: cookingTime (min)
+            validators: &numericValidator
+              - name: number
+                class: info.magnolia.ui.form.validator.definition.RegexpValidatorDefinition
+                errorMessage: recipes-app.common.validator.integer
+                pattern: ^\d*?$
+          - name: cookingTime
             class: info.magnolia.ui.form.field.definition.TextFieldDefinition
             defaultValue: 0
             required: true
+            validators: *numericValidator
+          - name: temperature
+            class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+            defaultValue: 0
+            validators: *numericValidator
           - name: level
             class: info.magnolia.ui.form.field.definition.SelectFieldDefinition
             sortOptions: false
@@ -50,6 +60,58 @@ editor:
             class: info.magnolia.ui.form.field.definition.TextFieldDefinition
             rows: 8
             i18n: true
+      - name: ingredientsTab
+        fields:
+          - name: quantity
+            class: info.magnolia.ui.form.field.definition.CompositeFieldDefinition
+            layout: horizontal
+            fields:
+              - name: Number
+                class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+                defaultValue: 0
+                required: true
+                validators: *numericValidator
+              - name: Unit
+                class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+                required: true
+                targetWorkspace: units
+                targetTreeRootPath: /Recipes
+                appName: units-app
+                identifierToPathConverter:
+                  class: info.magnolia.ui.form.field.converter.BaseIdentifierToPathConverter
+          - name: ingredients
+            class: info.magnolia.ui.form.field.definition.MultiValueFieldDefinition
+            transformerClass: info.magnolia.ui.form.field.transformer.multi.DelegatingMultiValueFieldTransformer
+            field:
+              name: image
+              class: info.magnolia.ui.form.field.definition.CompositeFieldDefinition
+              transformerClass: info.magnolia.ui.form.field.transformer.composite.DelegatingCompositeFieldTransformer
+              layout: horizontal
+              fields:
+                - name: ingredient
+                  class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+                  required: true
+                  targetWorkspace: ingredients
+                  appName: ingredients-app
+                  identifierToPathConverter:
+                    class: info.magnolia.ui.form.field.converter.BaseIdentifierToPathConverter
+                - name: quantity
+                  class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+                  defaultValue: 0
+                  required: true
+                  validators: &numericValidator
+                    - name: number
+                      class: info.magnolia.ui.form.validator.definition.RegexpValidatorDefinition
+                      errorMessage: recipes-app.common.validator.integer
+                      pattern: ^\d*?$
+                - name: quantityUnit
+                  class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+                  required: true
+                  targetWorkspace: units
+                  targetTreeRootPath: /Ingredients
+                  appName: units-app
+                  identifierToPathConverter:
+                    class: info.magnolia.ui.form.field.converter.BaseIdentifierToPathConverter
 actions:
   commit:
     class: info.magnolia.ui.form.action.SaveFormActionDefinition

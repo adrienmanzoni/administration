@@ -1,0 +1,6 @@
+icon: icon-configuration-app
+appClass: info.magnolia.ui.contentapp.ContentApp
+class: info.magnolia.ui.contentapp.ConfiguredContentAppDescriptor
+subApps:
+  browser: !include:/recipes-app/includes/apps/units-app-browser.yaml
+  detail: !include:/recipes-app/includes/apps/units-app-detail.yaml
